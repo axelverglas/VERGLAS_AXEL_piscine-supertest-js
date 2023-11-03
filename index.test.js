@@ -32,7 +32,7 @@ describe("POST /s1/exercice1", () => {
     const res = await request(app)
       .post("/s1/exercice1")
       .send({ n1: null, n2: 2 });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400); // Devrait s'attendre à 400, pas 200
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -40,7 +40,7 @@ describe("POST /s1/exercice1", () => {
     const res = await request(app)
       .post("/s1/exercice1")
       .send({ n1: 1, n2: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400); // Devrait s'attendre à 400, pas 200
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -48,7 +48,7 @@ describe("POST /s1/exercice1", () => {
     const res = await request(app)
       .post("/s1/exercice1")
       .send({ n1: null, n2: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400); // Devrait s'attendre à 400, pas 200
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -70,7 +70,7 @@ describe("POST /s1/exercice2", () => {
     const res = await request(app)
       .post("/s1/exercice2")
       .send({ n1: null, n2: 3 });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -78,7 +78,7 @@ describe("POST /s1/exercice2", () => {
     const res = await request(app)
       .post("/s1/exercice2")
       .send({ n1: 5, n2: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -86,7 +86,7 @@ describe("POST /s1/exercice2", () => {
     const res = await request(app)
       .post("/s1/exercice2")
       .send({ n1: null, n2: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 });
@@ -102,7 +102,7 @@ describe("POST /s1/exercice3", () => {
     const res = await request(app)
       .post("/s1/exercice3")
       .send({ n1: null, n2: 3 });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -110,7 +110,7 @@ describe("POST /s1/exercice3", () => {
     const res = await request(app)
       .post("/s1/exercice3")
       .send({ n1: 5, n2: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 });
@@ -126,7 +126,7 @@ describe("POST /s1/exercice4", () => {
     const res = await request(app)
       .post("/s1/exercice4")
       .send({ n1: null, n2: 3 });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -134,7 +134,7 @@ describe("POST /s1/exercice4", () => {
     const res = await request(app)
       .post("/s1/exercice4")
       .send({ n1: 5, n2: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 });
@@ -148,7 +148,7 @@ describe("POST /s1/exercice5", () => {
 
   test("Renvoie une erreur si n1 est null", async () => {
     const res = await request(app).post("/s1/exercice5").send({ n1: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 });
@@ -156,7 +156,7 @@ describe("POST /s1/exercice5", () => {
 describe("POST /s1/exercice6", () => {
   test("Renvoie une erreur si n1 est null", async () => {
     const res = await request(app).post("/s1/exercice6").send({ n1: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -176,7 +176,7 @@ describe("POST /s1/exercice6", () => {
 describe("POST /s1/exercice7", () => {
   test("Renvoie une erreur si n1 est null", async () => {
     const res = await request(app).post("/s1/exercice7").send({ n1: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -190,7 +190,7 @@ describe("POST /s1/exercice7", () => {
 describe("POST /s1/exercice8", () => {
   test("Renvoie une erreur si n1 est null", async () => {
     const res = await request(app).post("/s1/exercice8").send({ n1: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -202,6 +202,18 @@ describe("POST /s1/exercice8", () => {
 });
 
 describe("POST /s1/exercice9", () => {
+  test("Renvoie une erreur si n1 est null", async () => {
+    const res = await request(app).post("/s1/exercice9").send({ n1: null });
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual([{ reponse: "Veuillez entrer un mot valide" }]);
+  });
+
+  test("n1 n'est pas un palindrome", async () => {
+    const res = await request(app).post("/s1/exercice9").send({ n1: "test" });
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual([{ reponse: false }]);
+  });
+
   test("est un palindrome", async () => {
     const res = await request(app).post("/s1/exercice9").send({ n1: "kayak" });
     expect(res.statusCode).toBe(200);
@@ -214,7 +226,7 @@ describe("POST /s1/exercice10", () => {
     const res = await request(app)
       .post("/s1/exercice10")
       .send({ n1: null, n2: 2 });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -222,7 +234,7 @@ describe("POST /s1/exercice10", () => {
     const res = await request(app)
       .post("/s1/exercice10")
       .send({ n1: 1, n2: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -230,7 +242,7 @@ describe("POST /s1/exercice10", () => {
     const res = await request(app)
       .post("/s1/exercice10")
       .send({ n1: null, n2: null });
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 

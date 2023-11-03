@@ -25,6 +25,9 @@ const app = express();
 const PORT = 3000;
 app.use(express.json());
 
+function estNombreValide(n) {
+  return n !== null && n !== undefined && typeof n === "number" && !isNaN(n);
+}
 app.get("/", (req, res) => {
   return res.json([{ id: 1, name: "John Doe" }]);
 });
@@ -37,16 +40,10 @@ app.post("/s1/exercice1", (req, res) => {
   const n1 = req.body.n1;
   const n2 = req.body.n2;
 
-  if (n1 == null || n2 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
-
-  if (!n1) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
-
-  if (!n2) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
+  if (!estNombreValide(n1) || !estNombreValide(n2)) {
+    return res
+      .status(400)
+      .json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }
 
   let a = addition(n1, n2);
@@ -56,15 +53,10 @@ app.post("/s1/exercice1", (req, res) => {
 app.post("/s1/exercice2", (req, res) => {
   const { n1, n2 } = req.body;
 
-  if (n1 == null || n2 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
-  if (n1 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
-
-  if (n2 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
+  if (!estNombreValide(n1) || !estNombreValide(n2)) {
+    return res
+      .status(400)
+      .json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }
 
   let a = soustraction(n1, n2);
@@ -75,15 +67,10 @@ app.post("/s1/exercice3", (req, res) => {
   const n1 = req.body.n1;
   const n2 = req.body.n2;
 
-  if (n1 == null || n2 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
-  if (n1 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
-
-  if (n2 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
+  if (!estNombreValide(n1) || !estNombreValide(n2)) {
+    return res
+      .status(400)
+      .json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }
 
   let a = multiplication(n1, n2);
@@ -94,16 +81,12 @@ app.post("/s1/exercice4", (req, res) => {
   const n1 = req.body.n1;
   const n2 = req.body.n2;
 
-  if (n1 == null || n2 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
-  if (n1 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
+  if (!estNombreValide(n1) || !estNombreValide(n2)) {
+    return res
+      .status(400)
+      .json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }
 
-  if (n2 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
   let a = division(n1, n2);
   return res.json([{ reponse: a }]);
 });
@@ -111,9 +94,12 @@ app.post("/s1/exercice4", (req, res) => {
 app.post("/s1/exercice5", (req, res) => {
   const n1 = req.body.n1;
 
-  if (n1 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
+  if (!estNombreValide(n1)) {
+    return res
+      .status(400)
+      .json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }
+
   let a = factorielle(n1);
   return res.json([{ reponse: a }]);
 });
@@ -121,8 +107,10 @@ app.post("/s1/exercice5", (req, res) => {
 app.post("/s1/exercice6", (req, res) => {
   const n1 = req.body.n1;
 
-  if (n1 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
+  if (!estNombreValide(n1)) {
+    return res
+      .status(400)
+      .json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }
   let a = estPairOuImpair(n1);
   return res.json([{ reponse: a }]);
@@ -131,8 +119,10 @@ app.post("/s1/exercice6", (req, res) => {
 app.post("/s1/exercice7", (req, res) => {
   const n1 = req.body.n1;
 
-  if (n1 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
+  if (!estNombreValide(n1)) {
+    return res
+      .status(400)
+      .json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }
   let a = celsiusEnFahrenheit(n1);
   return res.json([{ reponse: a }]);
@@ -140,8 +130,11 @@ app.post("/s1/exercice7", (req, res) => {
 
 app.post("/s1/exercice8", (req, res) => {
   const n1 = req.body.n1;
-  if (n1 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
+
+  if (!estNombreValide(n1)) {
+    return res
+      .status(400)
+      .json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }
   let a = aireCercle(n1);
   return res.json([{ reponse: a }]);
@@ -149,27 +142,31 @@ app.post("/s1/exercice8", (req, res) => {
 
 app.post("/s1/exercice9", (req, res) => {
   const n1 = req.body.n1;
+
+  if (
+    n1 === undefined ||
+    n1 === null ||
+    typeof n1 !== "string" ||
+    n1.trim() === ""
+  ) {
+    return res.status(400).json([{ reponse: "Veuillez entrer un mot valide" }]);
+  }
+
   let a = estPalindrome(n1);
   return res.json([{ reponse: a }]);
 });
 
 app.post("/s1/exercice10", (req, res) => {
-  const n1 = req.body.n1;
-  const n2 = req.body.n2;
-  if (n1 == null || n2 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
+  const { n1, n2 } = req.body;
+
+  if (!estNombreValide(n1) || !estNombreValide(n2)) {
+    return res
+      .status(400)
+      .json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }
 
-  if (n1 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
-
-  if (n2 == null) {
-    return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
-  }
-
-  let a = pgcd(n1, n2);
-  return res.json([{ reponse: a }]);
+  let resultat = pgcd(n1, n2); // Assurez-vous que la fonction pgcd est définie correctement
+  return res.json([{ reponse: resultat }]);
 });
 
 app.post("/s2/exercice1", (req, res) => {
