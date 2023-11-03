@@ -156,7 +156,6 @@ app.post("/s1/exercice9", (req, res) => {
 app.post("/s1/exercice10", (req, res) => {
   const n1 = req.body.n1;
   const n2 = req.body.n2;
-
   if (n1 == null || n2 == null) {
     return res.json([{ reponse: "Veuillez entrer un nombre valide" }]);
   }

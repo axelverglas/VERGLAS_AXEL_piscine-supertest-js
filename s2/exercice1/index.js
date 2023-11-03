@@ -3,5 +3,5 @@ module.exports = function dateIlYADixAns() {
   let datePassee = new Date(
     dateActuelle.setFullYear(dateActuelle.getFullYear() - 10)
   );
-  return datePassée.toISOString().split("T")[0]; // Retourne la date au format 'YYYY-MM-DD'
+  return datePassee.toISOString().split("T")[0]; // Retourne la date au format 'YYYY-MM-DD', et corrigez l'erreur de typographie ici.
 };
