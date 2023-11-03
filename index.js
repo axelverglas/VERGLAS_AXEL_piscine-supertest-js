@@ -183,6 +183,12 @@ app.post("/s2/exercice2", (req, res) => {
       .json({ reponse: "Veuillez entrer une date valide." });
   }
 
+  if (date === null || date === undefined) {
+    return res
+      .status(400)
+      .json({ reponse: "Veuillez entrer une date valide." });
+  }
+
   const dateFormatee = formaterDate(date);
   return res.json([{ reponse: dateFormatee }]);
 });
@@ -199,6 +205,12 @@ app.post("/s2/exercice3", (req, res) => {
       .json({ reponse: "Veuillez entrer des dates valides." });
   }
 
+  if (date1.getTime() > date2.getTime()) {
+    return res.status(400).json({
+      reponse: "La première date doit être antérieure à la deuxième.",
+    });
+  }
+
   // Utilisation de la fonction differenceEnJours pour obtenir la différence
   const jours = differenceEnJours(date1, date2);
   return res.json([{ reponse: jours }]);
@@ -207,8 +219,19 @@ app.post("/s2/exercice3", (req, res) => {
 app.post("/s2/exercice4", (req, res) => {
   const { date, jours } = req.body;
 
+  if (jours === 0 || jours === null || jours === undefined) {
+    return res.status(400).json({ reponse: "Veuillez entrer un nombre." });
+  }
+
   if (!date || isNaN(jours)) {
     return res.status(400).json({ reponse: "Données invalides." });
+  }
+
+  //si les jours sont négatifs
+  if (jours < 0) {
+    return res
+      .status(400)
+      .json({ reponse: "Veuillez entrer un nombre positif." });
   }
 
   const dateResultat = ajouterJours(new Date(date), jours);
@@ -216,14 +239,34 @@ app.post("/s2/exercice4", (req, res) => {
 });
 
 app.post("/s2/exercice5", (req, res) => {
-  const { annee } = req.body;
+  let { annee } = req.body; // Utilisez let pour permettre la réassignation si nécessaire
 
-  if (isNaN(annee)) {
-    return res.status(400).json({ reponse: "Données invalides." });
+  if (!annee && annee !== 0) {
+    // Vérifie si annee est undefined, null, ou vide
+    return res.status(400).json({ reponse: "Données invalides." }); // Use the correct message as per the test case
   }
 
-  const estBissextile = estAnneeBissextile(annee);
-  return res.json({ reponse: estBissextile });
+  annee = Number(annee); // Convertit l'entrée en nombre si possible
+
+  if (isNaN(annee)) {
+    // Vérifie si annee n'est pas un nombre après la conversion
+    return res
+      .status(400)
+      .json({ reponse: "Veuillez entrer une année valide." }); // Use the correct message as per the test case
+  }
+
+  if (annee < 0) {
+    // Vérifie si l'année est positive
+    return res.status(400).json({ reponse: "L'année doit être positive." });
+  }
+
+  try {
+    const estBissextile = estAnneeBissextile(annee); // S'assure que cette fonction ne lance pas d'exception
+    return res.json({ reponse: estBissextile });
+  } catch (error) {
+    // Gère toute exception éventuelle et renvoie un code 500
+    return res.status(500).json({ reponse: "Erreur du serveur." });
+  }
 });
 
 app.post("/s2/exercice6", (req, res) => {
@@ -253,6 +296,20 @@ app.post("/s2/exercice7", (req, res) => {
 app.post("/s2/exercice8", (req, res) => {
   const { heures, minutes } = req.body;
 
+  //devrait retourner une erreur si les heures sont supérieures à 23
+
+  if (heures > 23) {
+    return res.status(400).json({
+      reponse: "Veuillez fournir une heure valide.",
+    });
+  }
+
+  if (minutes > 59) {
+    return res.status(400).json({
+      reponse: "Veuillez fournir une minute valide.",
+    });
+  }
+
   // Vérifie que les heures et les minutes sont des nombres
   if (typeof heures !== "number" || typeof minutes !== "number") {
     return res.status(400).json({
@@ -269,6 +326,8 @@ app.post("/s2/exercice8", (req, res) => {
 app.post("/s2/exercice9", (req, res) => {
   const { debut1, fin1, debut2, fin2 } = req.body;
 
+  const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+
   // Vérification des dates pour s'assurer qu'elles sont valides
   if (
     isNaN(new Date(debut1).getTime()) ||
@@ -281,6 +340,24 @@ app.post("/s2/exercice9", (req, res) => {
       .json({ reponse: "Veuillez entrer des dates valides." });
   }
 
+  if (
+    !dateFormatRegex.test(debut1) ||
+    !dateFormatRegex.test(fin1) ||
+    !dateFormatRegex.test(debut2) ||
+    !dateFormatRegex.test(fin2)
+  ) {
+    return res
+      .status(400)
+      .json({ reponse: "Veuillez entrer des dates valides." });
+  }
+
+  //La date de début doit être antérieure à la date de fin.
+  if (new Date(debut1).getTime() > new Date(fin1).getTime()) {
+    return res.status(400).json({
+      reponse: "La date de début doit être antérieure à la date de fin.",
+    });
+  }
+
   // Appel de la fonction chevauchementDates
   const chevauchent = chevauchementDates(debut1, fin1, debut2, fin2);
   return res.json({ reponse: chevauchent });
@@ -289,7 +366,27 @@ app.post("/s2/exercice9", (req, res) => {
 app.post("/s2/exercice10", (req, res) => {
   const { dateNaissance } = req.body;
 
+  const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+  if (!dateNaissance || !dateFormatRegex.test(dateNaissance)) {
+    return res
+      .status(400)
+      .json({ reponse: "Veuillez entrer une date de naissance valide." });
+  }
+
   if (isNaN(new Date(dateNaissance).getTime())) {
+    return res
+      .status(400)
+      .json({ reponse: "Veuillez entrer une date de naissance valide." });
+  }
+
+  if (new Date(dateNaissance).getTime() > new Date().getTime()) {
+    return res
+      .status(400)
+      .json({ reponse: "Veuillez entrer une date de naissance valide." });
+  }
+
+  if (new Date(dateNaissance).getFullYear() < 1900) {
     return res
       .status(400)
       .json({ reponse: "Veuillez entrer une date de naissance valide." });
