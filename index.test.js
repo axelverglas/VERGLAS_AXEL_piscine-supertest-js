@@ -32,7 +32,7 @@ describe("POST /s1/exercice1", () => {
     const res = await request(app)
       .post("/s1/exercice1")
       .send({ n1: null, n2: 2 });
-    expect(res.statusCode).toBe(400); // Devrait s'attendre à 400, pas 200
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -47,7 +47,7 @@ describe("POST /s1/exercice1", () => {
     const res = await request(app)
       .post("/s1/exercice1")
       .send({ n1: 1, n2: null });
-    expect(res.statusCode).toBe(400); // Devrait s'attendre à 400, pas 200
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -63,7 +63,7 @@ describe("POST /s1/exercice1", () => {
     const res = await request(app)
       .post("/s1/exercice1")
       .send({ n1: null, n2: null });
-    expect(res.statusCode).toBe(400); // Devrait s'attendre à 400, pas 200
+    expect(res.statusCode).toBe(400);
     expect(res.body).toEqual([{ reponse: "Veuillez entrer un nombre valide" }]);
   });
 
@@ -893,15 +893,43 @@ describe("POST /s2/exercice9", () => {
       "La date de début doit être antérieure à la date de fin."
     );
   });
+
+  test("renvoie une erreur si n1 est supérieur à n2", async () => {
+    const response = await request(app).post("/s2/exercice9").send({
+      debut1: "2023-01-10",
+      fin1: "2023-01-01",
+      debut2: "2023-01-11",
+      fin2: "2023-01-20",
+    });
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.reponse).toBe(
+      "La date de début doit être antérieure à la date de fin."
+    );
+  });
+
+  test("renvoie une erreur si n3 est supérieur à n4 ", async () => {
+    const response = await request(app).post("/s2/exercice9").send({
+      debut1: "2023-01-10",
+      fin1: "2023-01-01",
+      debut2: "2023-01-11",
+      fin2: "2023-01-20",
+    });
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.reponse).toBe(
+      "La date de début doit être antérieure à la date de fin."
+    );
+  });
 });
 
 describe("POST /s2/exercice10", () => {
   test("devrait retourner l'âge correct pour une date de naissance donnée", async () => {
     const response = await request(app)
       .post("/s2/exercice10")
-      .send({ dateNaissance: "1990-01-01" }); // Assurez-vous que la date est au format aaaa-mm-jj
+      .send({ dateNaissance: "1990-01-01" });
 
-    const expectedAge = new Date().getFullYear() - 1990; // Remplacez 1990 par l'année de naissance pour le test
+    const expectedAge = new Date().getFullYear() - 1990;
     expect(response.statusCode).toBe(200);
     expect(response.body.reponse).toBe(expectedAge);
   });
